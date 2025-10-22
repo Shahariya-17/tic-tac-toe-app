@@ -1,24 +1,25 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const Button = ({ label, onClick, color, icon }) => {
+
+const Button = ({ label, onClick, color = "bg-indigo-600 hover:bg-indigo-700", icon, disabled = false }) => {
   const isLightColor =
-    color?.includes("yellow") || color?.includes("amber") || color?.includes("lime");
+    color?.includes("yellow") ||
+    color?.includes("amber") ||
+    color?.includes("lime") ||
+    color?.includes("white") ||
+    color?.includes("gray-100");
 
   return (
     <motion.button
-      whileHover={{
-        scale: 1.08,
-        boxShadow: "0 0 20px rgba(0,0,0,0.15)",
-      }}
-      whileTap={{ scale: 0.95 }}
-      onClick={onClick}
-      className={`flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 ${color} ${
-        isLightColor ? "text-gray-900" : "text-white"
-      } shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-400`}
+      whileHover={!disabled ? { scale: 1.03, boxShadow: "0 8px 24px rgba(15,23,42,0.12)" } : {}}
+      whileTap={!disabled ? { scale: 0.97 } : {}}
+      onClick={!disabled ? onClick : undefined}
+      disabled={disabled}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm md:text-base font-medium transition-colors duration-150 ${color} ${isLightColor ? "text-gray-900" : "text-white"} ${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"} focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-purple-400`}
     >
       {icon && <span className="text-lg">{icon}</span>}
-      {label}
+      <span>{label}</span>
     </motion.button>
   );
 };
